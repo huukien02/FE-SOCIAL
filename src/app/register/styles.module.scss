@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  padding: 2;
+
+  .box {
+    max-width: 400;
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #1976d2;
+    border-radius: 10px;
+  }
+}
