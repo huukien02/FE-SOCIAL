@@ -2,7 +2,7 @@
 import "./styles.module.scss";
 import styles from "./styles.module.scss";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../../layout/page";
 import { useProfile } from "@/services/authService/profileService";
 import {
@@ -24,6 +24,7 @@ import { toast } from "react-toastify";
 import { useBlogs } from "@/services/blogsService/getService";
 import { BLOGS_FEELING } from "../../../common";
 import BoxBlog from "../../../components/Blogs/BoxBlog";
+import { io } from "socket.io-client";
 
 const Blogs = () => {
   const { data: dataProfile } = useProfile();
@@ -73,6 +74,31 @@ const Blogs = () => {
       }
     );
   };
+
+  // Kết nối SOCKET
+  useEffect(() => {
+    const socket = io("http://localhost:4000", {
+      transports: ["websocket"],
+    });
+
+    socket.on("blogsUpdated", (blogs) => {
+      refetchBlogs();
+    });
+
+    socket.on("commentsUpdated", (blogId, comments) => {
+      refetchBlogs();
+    });
+
+    socket.on("reactionsUpdated", (blogId) => {
+      refetchBlogs();
+    });
+
+    return () => {
+      socket.off("blogsUpdated");
+      socket.off("commentsUpdated");
+      socket.off("reactionsUpdated");
+    };
+  }, [refetchBlogs]);
 
   return (
     <Layout>
