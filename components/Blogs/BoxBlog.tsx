@@ -27,6 +27,7 @@ import "tippy.js/dist/tippy.css";
 import "tippy.js/themes/light.css";
 import { useReaction } from "@/services/reactions/postReaction";
 import ReactionIcons from "./Reaction";
+import ScrollBox from "../ScrollBox";
 
 const BoxBlog: React.FC<BlogProps> = ({ data }) => {
   const { data: dataProfile, refetch: refetchProfile } = useProfile();
@@ -179,51 +180,55 @@ const BoxBlog: React.FC<BlogProps> = ({ data }) => {
       </Box>
       {openComment && (
         <Box sx={{ p: 2 }}>
-          {data?.comments?.map((comment: any) => (
-            <Comment
-              key={comment.id}
-              avatar={comment.user.avatar}
-              name={comment.user.username}
-              time={formatDateTime(comment.created_at)}
-              content={comment.content}
-            />
-          ))}
+          <ScrollBox maxHeight={200}>
+            {data?.comments?.map((comment: any) => (
+              <Comment
+                key={comment.id}
+                avatar={comment.user.avatar}
+                name={comment.user.username}
+                time={formatDateTime(comment.created_at)}
+                content={comment.content}
+              />
+            ))}
+          </ScrollBox>
 
           <Divider />
-          <Box
-            sx={{
-              display: "flex",
-              justifyItems: "center",
-              alignItems: "center",
-              gap: 2,
-              mt: 2,
-            }}
-          >
-            <Avatar
-              alt="User Avatar"
-              src={dataProfile?.data.avatar}
-              sx={{ width: 40, height: 40 }}
-            />
-            <TextField
-              fullWidth
-              variant="outlined"
-              placeholder="Viết bình luận..."
-              multiline
-              rows={1}
+          {dataProfile && (
+            <Box
               sx={{
-                borderRadius: 2,
+                display: "flex",
+                justifyItems: "center",
+                alignItems: "center",
+                gap: 2,
+                mt: 2,
               }}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <Button
-              onClick={handlePostComment}
-              variant="contained"
-              color="primary"
             >
-              Gửi
-            </Button>
-          </Box>
+              <Avatar
+                alt="User Avatar"
+                src={dataProfile?.data.avatar}
+                sx={{ width: 40, height: 40 }}
+              />
+              <TextField
+                fullWidth
+                variant="outlined"
+                placeholder="Viết bình luận..."
+                multiline
+                rows={1}
+                sx={{
+                  borderRadius: 2,
+                }}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              />
+              <Button
+                onClick={handlePostComment}
+                variant="contained"
+                color="primary"
+              >
+                Gửi
+              </Button>
+            </Box>
+          )}
         </Box>
       )}
     </Card>
