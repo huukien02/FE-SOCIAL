@@ -10,15 +10,13 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <>
-      <Box display="flex" flexDirection="column" minHeight="100vh">
-        <Header />
-        <Box component="main" flexGrow={1} p={2}>
-          <Container>{children}</Container>
-        </Box>
-        <Footer />
+    <Box display="flex" flexDirection="column" minHeight="100vh">
+      <Header />
+      <Box component="main" flexGrow={1} p={2}>
+        <Container>{children}</Container>
       </Box>
-    </>
+      <Footer />
+    </Box>
   );
 };
 

@@ -68,9 +68,14 @@ export const Header = () => {
             Blogs
           </Button>
           {dataProfile && (
-            <Button color="inherit" component={Link} href="/profile">
-              Profile
-            </Button>
+            <>
+              <Button color="inherit" component={Link} href="/chat">
+                Chat
+              </Button>
+              <Button color="inherit" component={Link} href="/profile">
+                Profile
+              </Button>
+            </>
           )}
 
           {!dataProfile ? (

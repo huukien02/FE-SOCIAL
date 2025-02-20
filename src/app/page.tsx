@@ -9,8 +9,7 @@ import {
   Card,
   CardContent,
 } from "@mui/material";
-import Layout from "../../layout/page";
-import Head from "next/head";
+import Layout from "../../layout/page";;
 
 export default function Home() {
   return (
