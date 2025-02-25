@@ -57,7 +57,7 @@ export const Header = () => {
         </IconButton>
 
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          My App
+          Social Media
         </Typography>
 
         <Box>
@@ -71,6 +71,9 @@ export const Header = () => {
             <>
               <Button color="inherit" component={Link} href="/chat">
                 Chat
+              </Button>
+              <Button color="inherit" component={Link} href="/call">
+                Call
               </Button>
               <Button color="inherit" component={Link} href="/profile">
                 Profile

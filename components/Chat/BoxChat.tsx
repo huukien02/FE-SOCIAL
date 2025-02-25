@@ -91,7 +91,7 @@ const BoxChat = ({ selectedFriend, setSelectedFriend, roomId }: any) => {
         {selectedFriend?.username}
       </DialogTitle>
       <DialogContent>
-        <ScrollBox maxHeight={500}>
+        <ScrollBox maxHeight={500} scrollToBottom>
           {dataMessages?.data?.map((message: any) => {
             const isMe = message.sender.id === dataProfile?.data.id;
             return (

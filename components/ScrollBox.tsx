@@ -1,17 +1,19 @@
 import { Box } from "@mui/material";
 import { styled } from "@mui/system";
+import { useEffect, useRef } from "react";
 
 interface ScrollBoxProps {
   children: React.ReactNode;
   maxHeight?: number | string;
+  scrollToBottom?: boolean;
 }
 
 const StyledScrollBox = styled(Box)<{ maxHeight?: number | string }>(
   ({ maxHeight }) => ({
-    maxHeight: maxHeight || 400, // Mặc định là 400px nếu không truyền
+    maxHeight: maxHeight || 400,
     overflowY: "auto",
-    scrollbarWidth: "thin", // Firefox
-    scrollbarColor: "#888 transparent", // Firefox
+    scrollbarWidth: "thin",
+    scrollbarColor: "#888 transparent",
     "&::-webkit-scrollbar": {
       width: "8px",
     },
@@ -28,8 +30,24 @@ const StyledScrollBox = styled(Box)<{ maxHeight?: number | string }>(
   })
 );
 
-const ScrollBox: React.FC<ScrollBoxProps> = ({ children, maxHeight }) => {
-  return <StyledScrollBox maxHeight={maxHeight}>{children}</StyledScrollBox>;
+const ScrollBox: React.FC<ScrollBoxProps> = ({
+  children,
+  maxHeight,
+  scrollToBottom,
+}) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollToBottom && scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [children, scrollToBottom]);
+
+  return (
+    <StyledScrollBox ref={scrollRef} maxHeight={maxHeight}>
+      {children}
+    </StyledScrollBox>
+  );
 };
 
 export default ScrollBox;
