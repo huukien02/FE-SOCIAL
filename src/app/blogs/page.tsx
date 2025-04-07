@@ -100,6 +100,8 @@ const Blogs = () => {
     };
   }, [refetchBlogs]);
 
+  console.log(dataBlogs);
+
   return (
     <Layout>
       <Container>
@@ -116,7 +118,7 @@ const Blogs = () => {
           </Box>
         )}
 
-        {dataBlogs && (
+        {dataBlogs && dataBlogs.data && (
           <Box sx={{ maxWidth: 600, margin: "0 auto", padding: 2 }}>
             {dataBlogs.data?.map((blog: any) => (
               <BoxBlog key={blog.id} data={blog} />

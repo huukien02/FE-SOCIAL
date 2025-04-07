@@ -250,7 +250,7 @@ const VideoCall = () => {
         })}
       </Grid>
 
-      {call && !callAccepted && (
+      {call && fromUser && !callAccepted && (
         <Button
           onClick={answerCall}
           endIcon={<PhoneCallbackIcon />}

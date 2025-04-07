@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
-import Cookies from "js-cookie";
 
-const SECRET_KEY = new TextEncoder().encode("AUTH_SECCET_KEY");
+const SECRET_KEY = new TextEncoder().encode("AUTH_SECRET_KEY");
 
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get("accessToken");
-  const url = request.url;
+  const url = request.nextUrl;
 
-  if (!token && !url.includes("/login")) {
+  if (!token && !url.pathname.includes("/login")) {
     return NextResponse.redirect(new URL("/login", url));
   }
 
@@ -19,13 +18,17 @@ export async function middleware(request: NextRequest) {
         token.value.replace(/"/g, ""),
         SECRET_KEY
       );
+      const { role, exp } = decoded.payload;
       const currentTime = Math.floor(Date.now() / 1000);
-      if (decoded.payload.exp && decoded.payload.exp < currentTime) {
-        Cookies.remove("accessToken");
+
+      if (exp && exp < currentTime) {
         return NextResponse.redirect(new URL("/login", url));
       }
+
+      if (url.pathname.startsWith("/admin") && role !== "admin") {
+        return NextResponse.redirect(new URL("/", url));
+      }
     } catch (error) {
-      console.error("Lỗi xác thực token:", error);
       return NextResponse.redirect(new URL("/login", url));
     }
   }
@@ -34,5 +37,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/profile", "/chat", "/call"],
+  matcher: ["/profile", "/chat", "/call", "/admin"],
 };
